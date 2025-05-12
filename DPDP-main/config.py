@@ -24,11 +24,12 @@ else:
     # Running from source
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+logger.info(f"Base directory: {BASE_DIR}")
 # Use absolute paths for questionnaires directory
 QUESTIONNAIRE_DIR = os.path.join(BASE_DIR, "Questionnaire")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 # Define logo path relative to project root for st.image
-LOGO_PATH = os.path.join(BASE_DIR, "DPDP-main", "Assets", "logo.png")
+LOGO_PATH = os.path.join(BASE_DIR, "Assets", "logo.png")
 
 # Ensure critical directories exist
 for directory in [QUESTIONNAIRE_DIR, os.path.join(BASE_DIR, "data"), os.path.join(BASE_DIR, "secure")]:
@@ -138,9 +139,9 @@ def get_secret_or_env(secret_name: str, env_var_name: str) -> Optional[str]:
     logger.warning(f"API Key not found in Streamlit Secrets ('{secret_name}') or environment ('{env_var_name}').")
     return None
 
-api_key_1 = get_secret_or_env("OPENROUTER_API_KEY_1", "OPENROUTER_API_KEY_1")
-api_key_2 = get_secret_or_env("OPENROUTER_API_KEY_2", "OPENROUTER_API_KEY_2")
-api_key_3 = get_secret_or_env("OPENROUTER_API_KEY_3", "OPENROUTER_API_KEY_3")
+api_key_1 = get_secret_or_env("openrouter_api_key_1", "OPENROUTER_API_KEY_1")
+api_key_2 = get_secret_or_env("openrouter_api_key_1", "OPENROUTER_API_KEY_2")
+api_key_3 = get_secret_or_env("openrouter_api_key_1", "OPENROUTER_API_KEY_3")
 # --- End API Key Reading --- #
 
 # Filter out any keys that were not found (returned None)
