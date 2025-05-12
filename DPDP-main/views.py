@@ -1516,24 +1516,15 @@ def convert_markdown_to_pdf(markdown_content: str, organization_name: str = "Rep
         logo_path = os.path.join(config.BASE_DIR, "Assets", "@DataINFA.png")
         logger.info(f"Looking for logo at: {logo_path}")
         
-        # Create a header with the logo if it exists
-        header_content = ""
-        if os.path.exists(logo_path):
-            # Convert logo to base64
-            with open(logo_path, "rb") as f:
-                logo_base64 = base64.b64encode(f.read()).decode()
-            
-            # Add header with logo and styling
-            header_content = f"""
+        # Create a header similar to privacy_policy_analyzer.py (no logo)
+        header_content = f"""
 <div style="text-align: center; margin-bottom: 30px;">
-    <img src="data:image/png;base64,{logo_base64}" style="max-width: 32px; height: 32px; margin-bottom: 10px;">
     <h1 style="color: #333; margin: 0;">{organization_name}</h1>
     <p style="color: #666; margin: 5px 0;">Compliance Assessment Report</p>
     <p style="color: #666; margin: 5px 0;">Generated on: {datetime.now().strftime('%B %d, %Y')} by DataINFA</p>
 </div>
 
 ---
-
 """
         # Combine header with the report content
         full_content = f"{header_content}{markdown_content}"

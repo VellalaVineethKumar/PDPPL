@@ -538,31 +538,8 @@ def generate_privacy_policy_pdf(analysis_result: Dict, organization_name: str = 
         law_name = law_info.get("name", "Privacy Law")
         law_country = law_info.get("country", "")
         
-        # Get the logo path and verify it exists
-        logo_path = config.LOGO_PATH
-        logger.info(f"Looking for logo at: {logo_path}")
-        
-        # Create header content
-        header_content = ""
-        if os.path.exists(logo_path):
-            with open(logo_path, "rb") as f:
-                logo_base64 = base64.b64encode(f.read()).decode()
-            
-            header_content = f"""
-<div style="text-align: center; margin-bottom: 30px;">
-    <img src="data:image/png;base64,{logo_base64}" style="max-width: 200px; margin-bottom: 20px;">
-    <h1 style="color: #333; margin: 0;">{organization_name}</h1>
-    <p style="color: #666; margin: 5px 0;">Privacy Policy Analysis Report</p>
-    <p style="color: #666; margin: 5px 0;">Analyzed against: {law_name} </p>
-    <p style="color: #666; margin: 5px 0;">Generated on: {datetime.now().strftime('%B %d, %Y')} by DataINFA</p>
-</div>
-
----
-
-"""
-        else:
-            # Create header without logo
-            header_content = f"""
+        # Always use a text-only header (no logo)
+        header_content = f"""
 <div style="text-align: center; margin-bottom: 30px;">
     <h1 style="color: #333; margin: 0;">{organization_name}</h1>
     <p style="color: #666; margin: 5px 0;">Privacy Policy Analysis Report</p>
@@ -571,7 +548,6 @@ def generate_privacy_policy_pdf(analysis_result: Dict, organization_name: str = 
 </div>
 
 ---
-
 """
         
         # Get the analysis content
