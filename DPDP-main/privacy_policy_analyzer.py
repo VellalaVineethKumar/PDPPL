@@ -539,7 +539,7 @@ def generate_privacy_policy_pdf(analysis_result: Dict, organization_name: str = 
         law_country = law_info.get("country", "")
         
         # Get the logo path and verify it exists
-        logo_path = os.path.join(config.BASE_DIR, "Assets", "@logo.png")
+        logo_path = config.LOGO_PATH
         logger.info(f"Looking for logo at: {logo_path}")
         
         # Create header content

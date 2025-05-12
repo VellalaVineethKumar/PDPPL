@@ -1103,7 +1103,7 @@ def render_report():
                                 current_date = datetime.now().strftime("%B %d, %Y")
 
                                 # Get the logo path and verify it exists
-                                logo_path = os.path.join(config.BASE_DIR, "Assets", "@logo.png")
+                                logo_path = config.LOGO_PATH
                                 logger.info(f"Looking for logo at: {logo_path}")
 
                                 # Add header with logo if available
