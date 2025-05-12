@@ -1,0 +1,307 @@
+{
+  "sections": [
+    {
+      "name": "Applicability of the PDPPL",
+      "weight": 0.06,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organization process personal data electronically or through a combination of electronic and traditional techniques? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 2</a>]",
+          "options": [
+            "Yes, with comprehensive documentation",
+            "Partially, needs improvement",
+            "No electronic processing",
+            "Not applicable"
+          ],
+          "recommendations": {
+            "Partially, needs improvement": "Enhance documentation practices to comply with PDPPL requirements.\n\n<span class='informatica-solution'>**Informatica Solution:**</span> Informatica Data Governance helps document processing activities."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Principles of Data Privacy",
+      "weight": 0.13,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organization conduct regular audits of personal data processing? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 4</a>]",
+          "options": [
+            "Yes, with full documentation",
+            "Partially implemented",
+            "No audits conducted",
+            "Not applicable"
+          ],
+          "recommendations": {
+            "Partially implemented": "Implement comprehensive audit processes.\n\n<span class='informatica-solution'>**Informatica Solution:**</span> Informatica Data Governance provides audit capabilities."
+          }
+        },
+        {
+          "id": 2,
+          "text": "Does your organization maintain a Record of Processing Activities (RoPA) documenting all personal data processing? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 5</a>]",
+          "options": [
+            "Yes, fully documented",
+            "Partially documented",
+            "No RoPA maintained",
+            "Not applicable"
+          ],
+          "recommendations": {
+            "Partially documented": "Complete your RoPA to include all required details.\n\n<span class='informatica-solution'>**Informatica Solution:**</span> Informatica Data Catalog automatically documents data processing activities."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Permitted Reasons",
+      "weight": 0.15,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organisation have measures in place to identify and document the permitted reason for processing personal data? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 6</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Establish a framework to identify and document the legal basis for each personal data processing activity, clearly categorizing them under explicit consent, contractual necessity, legal obligation, or legitimate interest."
+          }
+        },
+        {
+          "id": 2,
+          "text": "Where 'Explicit Consent' is identified as the permitted reason for processing, does your organisation have an established process for asking and recording consent? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 7</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Implement a robust consent management system that clearly requests, records, and tracks consent from individuals."
+          }
+        },
+        {
+          "id": 3,
+          "text": "Does your organisation have measures in place to identify and document any exemptions under articles 18 and/or 19? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 18 & 19</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Establish a process to identify and document any processing activities that may qualify for exemptions under articles 18 and/or 19 of the PDPPL."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Special Nature Processing & Security",
+      "weight": 0.10,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organisation comply with the requirements for processing 'personal data of special nature?' [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 16</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Implement additional safeguards for processing special nature personal data, including ethnic origin, children's data, health information, religious data, marital relations, criminal offenses, and biometrics."
+          }
+        },
+        {
+          "id": 2,
+          "text": "Does your organisation implement appropriate administrative, technical and financial precautions in compliance with PDPPL requirements? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 8</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Implement comprehensive security measures including access controls, encryption, regular security testing, incident response capabilities, and staff training. Ensure these measures address the specific risks associated with your data processing activities and align with PDPPL requirements."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Individuals' Rights & Complaints",
+      "weight": 0.13,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organisation have the procedures in place to enable individuals to exercise their rights as set out in the PDPPL? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 5</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Establish comprehensive procedures for handling individual rights requests, including the right to protection and lawful processing, consent withdrawal, objection to processing, erasure, correction, notification of processing, notification of inaccurate disclosure, and access to personal data."
+          }
+        },
+        {
+          "id": 2,
+          "text": "Does your organisation have a system in place to ensure individuals are able to raise concerns or complaints to the organisation? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 18</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Establish a formal complaints handling process that includes multiple accessible channels for individuals to raise concerns, clear procedures for complaint investigation and resolution, and defined timeframes for responses."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Governance & Training Awareness",
+      "weight": 0.10,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organisation have clearly defined, approved and communicated policies relating to the processing of personal data and is compliance monitored across the organisation? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 10</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Develop, approve, and communicate comprehensive data protection policies across your organization. Implement monitoring mechanisms to ensure ongoing compliance with these policies and PDPPL requirements."
+          }
+        },
+        {
+          "id": 2,
+          "text": "Does your organisation have a governance framework that clearly sets out roles & responsibilities in relation to data privacy? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 11</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Establish a formal data privacy governance framework that clearly defines roles and responsibilities throughout the organization. Consider appointing a Data Protection Officer or privacy team to oversee compliance efforts."
+          }
+        },
+        {
+          "id": 3,
+          "text": "Does your organisation have a procedure in place to ensure Data Privacy training and awareness is being conducted across the organisation? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 12</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Implement regular data privacy training and awareness programs for all employees. Tailor training to specific roles and responsibilities, and maintain records of training completion. Include updates on regulatory changes and emerging privacy best practices."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Data Privacy Impact Assessment (DPIA) & Privacy by Design",
+      "weight": 0.09,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Is there a formal, documented framework to conduct and manage Data Privacy Impact Assessments (DPIAs) across the organisation? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 14</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Develop a standardized DPIA framework and process to assess privacy risks for new processing activities or significant changes to existing ones. Include criteria for determining when a DPIA is required, methodology for conducting assessments, and procedures for reviewing and approving results."
+          }
+        },
+        {
+          "id": 2,
+          "text": "Is there a framework in place to embed data privacy by design and default within the organisation? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 17</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Implement a privacy by design framework that integrates privacy considerations into all processes, products, and services from the earliest stages of development. Include privacy in requirements gathering, design reviews, and deployment processes."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cross Border Data Flows & Third Party Agreements",
+      "weight": 0.09,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organisation ensure an adequate level of protection for any personal data processed by others on your behalf that is transferred outside the state of Qatar? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 15</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Implement mechanisms to ensure adequate protection for international data transfers, such as standard contractual clauses, binding corporate rules, or verifying recipient country adequacy decisions. Maintain documentation of transfer impact assessments and safeguards implemented."
+          }
+        },
+        {
+          "id": 2,
+          "text": "Does your organisation have a written contract with processors who process personal data on your behalf, including requirements for the use of sub processors? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 13</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Establish formal written agreements with all data processors that clearly define their data protection obligations, including confidentiality, security measures, data subject rights support, and sub-processor management. Regularly review and update these agreements."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Data Breaches",
+      "weight": 0.10,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organisation have a formal, documented process to identify and respond to privacy related incidents and breaches? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 16</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Establish a comprehensive data breach response plan that includes detection procedures, classification criteria, containment strategies, notification protocols, and post-incident review processes. Ensure all relevant stakeholders understand their roles in the event of a breach."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Children's Websites",
+      "weight": 0.04,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Does your organisation take account of the PDPPL requirements for owners or operators of websites directed at children? [<a href='https://datainfa.com/pdppl-qatar/' target='_blank'>PDPPL Section 17</a>]",
+          "options": [
+            "No - Not yet completed",
+            "Yes - Successfully completed",
+            "No - Not Applicable"
+          ],
+          "recommendations": {
+            "No - Not yet completed": "Implement enhanced protection measures for children's data, including age verification mechanisms, parental consent procedures, simplified privacy notices, and stricter data minimization practices. Ensure these measures comply with the specific PDPPL requirements for children's websites."
+          }
+        }
+      ]
+    }
+  ],
+  "answer_points": {
+    "Yes, with comprehensive documentation": 1.0,
+    "Yes, with full documentation": 1.0,
+    "Yes, fully documented": 1.0,
+    "Partially, needs improvement": 0.5,
+    "Partially implemented": 0.5,
+    "Partially documented": 0.5,
+    "No electronic processing": 0.0,
+    "No audits conducted": 0.0,
+    "No RoPA maintained": 0.0,
+    "Not applicable": null
+  }
+}
