@@ -151,7 +151,7 @@ For each major section of the privacy policy, provide:
         "file_path": "Assets/Documents/NDP_Qatar.txt",
         "country": "Qatar",
         "website": "https://datainfa.com/ndp-qatar/",
-        "prompt_template": """You are a privacy policy compliance expert. Analyze the following privacy policy against the requirements of the National Data Protection (NDP) Law of Qatar.
+        "prompt_template": """You are a privacy policy compliance expert. Analyze the following privacy policy against the requirements of the Personal Data Privacy Protection Law (PDPPL) of Qatar.
 
 Privacy Policy Content:
 ---------------------
