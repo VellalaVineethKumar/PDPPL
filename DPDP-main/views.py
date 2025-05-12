@@ -58,6 +58,10 @@ from faq import FAQ_DATA  # Add this import at the top
 # Setup logging
 logger = logging.getLogger(__name__)
 
+# Ensure assessment_type is initialized in session state
+if 'assessment_type' not in st.session_state:
+    st.session_state.assessment_type = 'QPDPPL'
+
 def render_header():
     """Render the application header"""
     org_name = st.session_state.organization_name if st.session_state.organization_name and st.session_state.organization_name.strip() else None
