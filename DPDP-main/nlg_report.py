@@ -103,8 +103,7 @@ def _generate_template_report(results: Dict[str, Any], format: str = FORMAT_MARK
         
         # Report header with markdown formatting
         md_report.extend([
-            "# DATA PROTECTION COMPLIANCE REPORT",
-            "",
+
             "## EXECUTIVE SUMMARY",
             "",
             f"Based on the assessment, your organization's overall compliance score is **{overall_score:.1f}%**, "

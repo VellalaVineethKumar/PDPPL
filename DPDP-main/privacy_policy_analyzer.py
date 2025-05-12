@@ -150,7 +150,7 @@ For each major section of the privacy policy, provide:
         "regulation": "Personal Data Privacy Protection Law (PDPPL)",
         "file_path": "Assets/Documents/NDP_Qatar.txt",
         "country": "Qatar",
-        "website": "https://datainfa.com/ndp-qatar/",
+        "website": "https://datainfa.com/pdppl-qatar/",
         "prompt_template": """You are a privacy policy compliance expert. Analyze the following privacy policy against the requirements of the Personal Data Privacy Protection Law (PDPPL) of Qatar.
 
 Privacy Policy Content:
@@ -158,24 +158,24 @@ Privacy Policy Content:
 {policy_content}
 ---------------------
 
-NDP Requirements:
+PDPPL Requirements:
 ---------------------
 {law_content}
 ---------------------
 
 Your task is to:
-1. Identify any conflicts or gaps between the privacy policy and the NDP requirements
-2. Highlight specific sections of the NDP that are relevant to each finding
+1. Identify any conflicts or gaps between the privacy policy and the PDPPL requirements
+2. Highlight specific sections of the PDPPL that are relevant to each finding
 3. Provide recommendations for compliance
 4. Clearly highlight key issues
 
 # Privacy Policy Analysis
 
 ## Key Findings
-- List major findings with specific references to NDP sections
+- List major findings with specific references to PDPPL sections
 
 ## Compliance Gaps
-- List specific gaps with references to NDP requirements
+- List specific gaps with references to PDPPL requirements
 
 ## Recommendations
 - Provide actionable recommendations to address each gap
@@ -183,7 +183,7 @@ Your task is to:
 ## Detailed Analysis
 For each major section of the privacy policy, provide:
 - What was found
-- Relevant NDP sections
+- Relevant PDPPL sections
 - Compliance status
 - Recommendations"""
     },
