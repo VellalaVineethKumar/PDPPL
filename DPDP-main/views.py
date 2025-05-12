@@ -60,7 +60,7 @@ logger = logging.getLogger(__name__)
 
 # Ensure assessment_type is initialized in session state
 if 'assessment_type' not in st.session_state:
-    st.session_state.assessment_type = 'QPDPPL'
+    st.session_state.assessment_type = 'PDPPL'
 
 def render_header():
     """Render the application header"""

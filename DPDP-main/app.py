@@ -76,6 +76,10 @@ from views import (
 # Initialize session state
 initialize_session_state()
 
+# Ensure assessment_type is initialized in session state
+if 'assessment_type' not in st.session_state:
+    st.session_state.assessment_type = 'PDPPL'
+
 # Check authentication
 if not st.session_state.get('authenticated', False):
     render_landing_page()
