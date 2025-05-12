@@ -30,7 +30,6 @@ def render_detailed_recommendations(section_name: str, contexts: List[Dict[str, 
         st.write(f"**Q:** {context['question_text']}")
         st.write(f"**Your Response:** {context['response']}")
         st.markdown(f"**Recommendation:** {context['recommendation']}")
-        st.markdown("---")
 
 def enhance_recommendations_page(questionnaire: Dict[str, Any], results: Dict[str, Any]):
     """

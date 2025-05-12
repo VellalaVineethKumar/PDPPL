@@ -1103,7 +1103,7 @@ def render_report():
                                 current_date = datetime.now().strftime("%B %d, %Y")
 
                                 # Get the logo path and verify it exists
-                                logo_path = config.LOGO_PATH
+                                logo_path = os.path.join(config.BASE_DIR, "Assets", "@DataINFA.png")
                                 logger.info(f"Looking for logo at: {logo_path}")
 
                                 # Add header with logo if available
@@ -1115,7 +1115,7 @@ def render_report():
                                     
                                     # Add header with logo and styling
                                     header_content = f"""<div style="text-align: center; margin-bottom: 30px;">
-                                        <img src="data:image/png;base64,{logo_base64}" style="max-width: 12px; height: 12px; margin-bottom: 10px;">
+                                        <img src="data:image/png;base64,{logo_base64}" style="max-width: 32px; height: 32px; margin-bottom: 10px;">
                                         <h1 style="color: #333; margin: 0;">{org_name}</h1>
                                         <p style="color: #666; margin: 5px 0;">Compliance Assessment Report</p>
                                         <p style="color: #666; margin: 5px 0;">Generated on: {current_date} by DataINFA</p>
@@ -1522,7 +1522,7 @@ def convert_markdown_to_pdf(markdown_content: str, organization_name: str = "Rep
             # Add header with logo and styling
             header_content = f"""
 <div style="text-align: center; margin-bottom: 30px;">
-    <img src="data:image/png;base64,{logo_base64}" style="max-width: 12px; height: 12px; margin-bottom: 10px;">
+    <img src="data:image/png;base64,{logo_base64}" style="max-width: 32px; height: 32px; margin-bottom: 10px;">
     <h1 style="color: #333; margin: 0;">{organization_name}</h1>
     <p style="color: #666; margin: 5px 0;">Compliance Assessment Report</p>
     <p style="color: #666; margin: 5px 0;">Generated on: {datetime.now().strftime('%B %d, %Y')} by DataINFA</p>
