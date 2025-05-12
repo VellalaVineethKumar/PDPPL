@@ -2348,7 +2348,8 @@ def render_privacy_policy_analyzer() -> None:
             allowed_countries = ["Qatar", "India"]
             country_options = {k: v for k, v in country_options.items() if k in allowed_countries}
             country_names = list(country_options.keys())
-            selected_country = st.session_state.get("ppa_selected_country", country_names[0])
+            # Set default to 'Qatar' if available, otherwise use the first country
+            selected_country = st.session_state.get("ppa_selected_country", "Qatar" if "Qatar" in country_names else country_names[0])
             selected_country = st.selectbox(
                 "Country *",
                 options=country_names,
@@ -2357,7 +2358,6 @@ def render_privacy_policy_analyzer() -> None:
             )
             st.session_state.ppa_selected_country = selected_country
             selected_country_key = country_options[selected_country]
-            st.write("")
 
             # 3. Industry (context-sensitive)
             # st.markdown('<p class="input-label">Industry *</p>', unsafe_allow_html=True)
