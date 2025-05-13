@@ -534,6 +534,7 @@ def render_assessment():
                             st.session_state.selected_regulation,
                             st.session_state.selected_industry
                         )
+                        st.session_state.collapse_sidebar = True  # Collapse sidebar on next load
                         st.session_state.current_page = 'report'
                         st.rerun()
                     else:
@@ -1386,15 +1387,7 @@ def render_report():
                 </p>
             </div>
         """, unsafe_allow_html=True)
-    elif regulation_for_loader == 'PDPPL':
-        st.markdown("""
-            <div class="countdown-container">
-                <h3 class="countdown-header">Time Left to Achieve Qatar PDPPL Compliance</h3>
-                <p class="countdown-text">
-                    Your organization must achieve compliance before the deadline
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
+
     # --- End of commented out section ---
     
     # --- End of commented out section ---
@@ -1420,14 +1413,16 @@ def render_report():
             if 'assessment_type' not in st.session_state:
                 st.session_state.assessment_type = 'DPDP'  # Default to DPDP assessment type
             
-        excel_link = generate_excel_download_link(
-            results,
-            st.session_state.organization_name,
-            st.session_state.assessment_date,
+        # Only show the Admin Excel download link if the user is 'dpdp2025'
+        if st.session_state.get('username') == 'dpdp2025':
+            excel_link = generate_excel_download_link(
+                results,
+                st.session_state.organization_name,
+                st.session_state.assessment_date,
                 st.session_state.assessment_type,
-                st.session_state.selected_industry  # Add the missing industry parameter
-        )
-        st.markdown(excel_link, unsafe_allow_html=True)
+                st.session_state.selected_industry
+            )
+            st.markdown(excel_link, unsafe_allow_html=True)
 
 def render_recommendations():
     """Render the detailed recommendations page"""
