@@ -8,7 +8,6 @@ Main entry point that initializes the application and handles page routing.
 """
 
 import streamlit as st
-# Add this near the top of your app.py file
 
 # Set sidebar state based on session flag and current page
 if st.session_state.get('current_page') == 'report' and st.session_state.get('collapse_sidebar', False):
@@ -16,7 +15,6 @@ if st.session_state.get('current_page') == 'report' and st.session_state.get('co
         page_title="Data Protection Compliance Assessment",
         page_icon="🔒",
         layout="wide",
-        theme="dark",
         initial_sidebar_state="collapsed"
     )
     st.session_state.collapse_sidebar = False  # Reset after collapsing
@@ -25,7 +23,6 @@ else:
         page_title="Data Protection Compliance Assessment",
         page_icon="🔒",
         layout="wide",
-        theme="dark",
         initial_sidebar_state="expanded"
     )
 
