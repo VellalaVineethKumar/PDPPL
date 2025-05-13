@@ -1,10 +1,28 @@
 [theme]
-base = "dark"
+# Complete custom theme configuration
 primaryColor = "#FF4B4B"
 backgroundColor = "#0E1117"
 secondaryBackgroundColor = "#262730"
 textColor = "#FAFAFA"
 font = "sans serif"
+
+# Custom theme specific options
+secondaryTextColor = "#B9B9B9"
+accentColor = "#FF4B4B"
+headingColor = "#FFD700"  # Gold for headings
+linkColor = "#6FA8DC"     # Light blue for links
+menuBackgroundColor = "#1E1E2D"  # Slightly lighter background for menu
+buttonTextColor = "#FFFFFF"  # White text on buttons
+warningColor = "#FFA500"    # Orange for warnings
+errorColor = "#FF4B4B"      # Red for errors
+successColor = "#00CC96"    # Green for success
+
+[server]
+enableXsrfProtection = true
+enableCORS = true
+
+[browser]
+gatherUsageStats = false
 
 [server]
 enableXsrfProtection = true
