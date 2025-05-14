@@ -13,3 +13,4 @@ enableCORS = true           # This is the default, so not strictly needed unless
 
 [browser]
 gatherUsageStats = false
+

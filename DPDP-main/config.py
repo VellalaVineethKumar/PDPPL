@@ -29,7 +29,7 @@ logger.info(f"Base directory: {BASE_DIR}")
 QUESTIONNAIRE_DIR = os.path.join(BASE_DIR, "Questionnaire")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 # Define logo path relative to project root for st.image
-LOGO_PATH = os.path.join(BASE_DIR, "Assets", "logo.png")
+LOGO_PATH = os.path.join(BASE_DIR, "Assets", "dark_logo.png")
 
 # Ensure critical directories exist
 for directory in [QUESTIONNAIRE_DIR, os.path.join(BASE_DIR, "data"), os.path.join(BASE_DIR, "secure")]:

@@ -48,7 +48,8 @@ from styles import (
     get_logo_css,
     get_data_discovery_css,
     get_penalties_note_css,
-    get_ai_report_css
+    get_ai_report_css,
+    get_download_button_css
 )
 
 from faq import FAQ_DATA  # Add this import at the top
@@ -890,7 +891,7 @@ def render_report():
 
     # Add Not Applicable answers section
     st.markdown('<div style="margin-top: -60px;"></div>', unsafe_allow_html=True)
-    st.subheader("Answers Marked as \"Not Applicable\"")
+    st.subheader("Answers marked as \"Not Applicable\"")
     
     # Get questionnaire for reference
     regulation_for_loader, industry_for_loader = get_regulation_and_industry_for_loader()
@@ -949,7 +950,7 @@ def render_report():
 
     ai_report = None # Ensure ai_report is defined
 
-    with st.spinner("🔄 Generating detailed AI analysis...") if should_regenerate else st.container():
+    with st.spinner("🔄 Generating detailed AI analysis... (Estimated time: 60–120 seconds)") if should_regenerate else st.container():
         try:
             if should_regenerate:
                 generated_report = generate_natural_language_report(st.session_state.results)
@@ -1026,7 +1027,7 @@ def render_report():
                     }
                     </style>
                 """, unsafe_allow_html=True)
-                    
+                        
                 # Process the report to fix the first line
                 lines = ai_report.split('\n')
                 # Remove any lines before the first Markdown header
@@ -1082,83 +1083,88 @@ def render_report():
 
     # --- Download/Regenerate Buttons ---
     if ai_report: # Only show buttons if report exists
-        col1, col2 = st.columns([3, 1])
-        with col1:
-            # Create a row for the buttons with more space between them
-            col1, spacer = st.columns([1, 3])
-            
-            with col1:
-                # Store the report content in session state if not already there
-                if 'cached_ai_report' not in st.session_state:
-                    st.session_state.cached_ai_report = ai_report
+        # Add download button styling
+        st.markdown(get_download_button_css(), unsafe_allow_html=True)
+        
+        # Use two columns for button alignment
+        left_col, right_col = st.columns([1, 1])
+        with left_col:
+            # Store the report content in session state if not already there
+            if 'cached_ai_report' not in st.session_state:
+                st.session_state.cached_ai_report = ai_report
 
-                # Function to generate PDF when download button is clicked
-                def get_pdf_data():
-                    if 'pdf_data' not in st.session_state:
-                        with st.spinner("Generating PDF report..."):
-                            try:
-                                # Get the original AI report content
-                                original_report_content = st.session_state.cached_ai_report
-                                if not original_report_content:
-                                    st.error("No report content available. Please generate a report first.")
-                                    return None
-
-                                # Get organization name, default if not found
-                                org_name = st.session_state.get('organization_name', 'Unknown Organization')
-                                current_date = datetime.now().strftime("%B %d, %Y")
-
-                                # Get the logo path and verify it exists
-                                logo_path = os.path.join(config.BASE_DIR, "Assets", "@DataINFA.png")
-                                logger.info(f"Looking for logo at: {logo_path}")
-
-                                # Add header with logo if available
-                                header_content = ""
-                                if os.path.exists(logo_path):
-                                    # Convert logo to base64
-                                    with open(logo_path, "rb") as f:
-                                        logo_base64 = base64.b64encode(f.read()).decode()
-                                    
-                                    # Add header with logo and styling
-                                    header_content = f"""<div style="text-align: center; margin-bottom: 30px;">
-                                        <img src="data:image/png;base64,{logo_base64}" style="max-width: 32px; height: 32px; margin-bottom: 10px;">
-                                        <h1 style="color: #333; margin: 0;">{org_name}</h1>
-                                        <p style="color: #666; margin: 5px 0;">Compliance Assessment Report</p>
-                                        <p style="color: #666; margin: 5px 0;">Generated on: {current_date} by DataINFA</p>
-                                    </div>
-
-                                    ---
-
-                                    """
-                                # Combine header with the report content
-                                report_with_header = f"{header_content}{original_report_content}"
-
-                                # Generate PDF
-                                pdf_data = convert_markdown_to_pdf(report_with_header, org_name)
-                                if pdf_data:
-                                    st.session_state.pdf_data = pdf_data
-                                    return pdf_data
-                            except Exception as e:
-                                logger.error(f"Error generating PDF: {e}")
-                                st.error("An error occurred while generating the PDF. Please try again.")
+            # Function to generate PDF when download button is clicked
+            def get_pdf_data():
+                if 'pdf_data' not in st.session_state:
+                    with st.spinner("Generating PDF report..."):
+                        try:
+                            # Get the original AI report content
+                            original_report_content = st.session_state.cached_ai_report
+                            if not original_report_content:
+                                st.error("No report content available. Please generate a report first.")
                                 return None
-                    return st.session_state.get('pdf_data')
 
-                # Download button that triggers PDF generation only when clicked
+                            # Get organization name, default if not found
+                            org_name = st.session_state.get('organization_name', 'Unknown Organization')
+                            current_date = datetime.now().strftime("%B %d, %Y")
+
+                            # Get the logo path and verify it exists
+                            logo_path = os.path.join(config.BASE_DIR, "Assets", "@DataINFA.png")
+                            logger.info(f"Looking for logo at: {logo_path}")
+
+                            # Add header with logo if available
+                            header_content = ""
+                            if os.path.exists(logo_path):
+                                # Convert logo to base64
+                                with open(logo_path, "rb") as f:
+                                    logo_base64 = base64.b64encode(f.read()).decode()
+                                
+                                # Add header with logo and styling
+                                header_content = f"""<div style=\"text-align: center; margin-bottom: 30px;\">
+                                    <img src=\"data:image/png;base64,{logo_base64}\" style=\"max-width: 32px; height: 32px; margin-bottom: 10px;\">
+                                    <h1 style=\"color: #333; margin: 0;\">{org_name}</h1>
+                                    <p style=\"color: #666; margin: 5px 0;\">Compliance Assessment Report</p>
+                                    <p style=\"color: #666; margin: 5px 0;\">Generated on: {current_date} by DataINFA</p>
+                                </div>
+
+                                ---
+
+                                """
+                            # Combine header with the report content
+                            report_with_header = f"{header_content}{original_report_content}"
+
+                            # Generate PDF
+                            pdf_data = convert_markdown_to_pdf(report_with_header, org_name)
+                            if pdf_data:
+                                st.session_state.pdf_data = pdf_data
+                                return pdf_data
+                        except Exception as e:
+                            logger.error(f"Error generating PDF: {e}")
+                            st.error("An error occurred while generating the PDF. Please try again.")
+                            return None
+                return st.session_state.get('pdf_data')
+
+            # Only show the download button if PDF data is available
+            pdf_data = get_pdf_data()
+            if pdf_data is not None:
                 st.download_button(
-                    label="📥 Download Report (PDF)",
-                    data=get_pdf_data(),
+                    label="Download Report (PDF)",
+                    data=pdf_data,
                     file_name=f"Questionnaire_Assessment_Report_{datetime.now().strftime('%Y%m%d')}.pdf",
                     mime="application/pdf",
                     help="Download the AI-generated analysis as a PDF document",
-                    use_container_width=False,
+                    use_container_width=True,
                     key="download_pdf_button",
                     disabled=not st.session_state.get('cached_ai_report')
                 )
+            else:
+                st.warning("PDF report is not available yet. Please try regenerating the report.")
 
-            with spacer:
-                if st.button("🔄 Regenerate", help="Generate a new AI analysis", use_container_width=False):
-                    st.session_state.ai_report_generated = False
-                    st.rerun()
+        with right_col:
+            st.markdown("<div style='text-align: right;'></div>", unsafe_allow_html=True)
+            if st.button("🔄 Regenerate", help="Generate a new AI analysis", use_container_width=True):
+                st.session_state.ai_report_generated = False
+                st.rerun()
 
 
    
@@ -1990,7 +1996,7 @@ def render_sidebar():
             {"label": "Assessment", "key": "nav_assessment", "page": "assessment", "show_if_ready": assessment_ready},
             {"label": "AI Report ✨", "key": "nav_report", "page": "report", "show_if": "assessment_complete"},
             {"label": "AI Data Discovery 🪄", "key": "nav_discovery", "page": "discovery", "show_if": "assessment_complete"},
-            {"label": "AI Privacy Policy Analyzer 📄", "key": "nav_privacy", "page": "privacy", "always_show": True},
+            {"label": "AI Privacy Policy Analyzer 💫", "key": "nav_privacy", "page": "privacy", "always_show": True},
             {"label": "Admin", "key": "nav_admin", "page": "admin", "show_if": "is_admin"},
             {"label": "FAQ", "key": "nav_faq", "page": "faq", "always_show": True}
         ]
@@ -2045,9 +2051,9 @@ def render_welcome_page():
                 label_visibility="collapsed"
             )
             if org_name != st.session_state.organization_name:
-                st.session_state.organization_name = org_name
+                # Capitalize the organization name
+                st.session_state.organization_name = org_name.strip().title()
             
-            st.write("")
             
             # 2. Country (from PRIVACY_LAWS)
             from privacy_policy_analyzer import PRIVACY_LAWS
@@ -2109,10 +2115,6 @@ def render_welcome_page():
             )
             st.session_state.selected_regulation = selected_country_key  # Use law key for downstream logic
             
-            # Add spacing before button
-            st.write("")
-            st.write("")
-            
             # Centered button with fixed width
             col1, col2, col3 = st.columns([1, 2, 1])
             with col2:
@@ -2133,6 +2135,8 @@ def render_welcome_page():
                     logger.info(f"Starting assessment for {org_name}")
                     go_to_page('assessment')
                     st.rerun()
+                # Add a short note below the button, centered
+                st.markdown('<div style="margin-top: 0.5em; color: #aaa; font-size: 0.95em; text-align: center;">Estimated completion time: 5–10 minutes.</div>', unsafe_allow_html=True)
 
 def render_dashboard():
     """Render the dashboard view"""
@@ -2252,7 +2256,7 @@ def convert_for_download():
         current_date = datetime.now().strftime("%B %d, %Y")
 
         # Add header with logo if available
-        logo_path = os.path.join(config.BASE_DIR, "Assets", "@logo.png")
+        logo_path = os.path.join(config.BASE_DIR, "Assets", "dark_logo.png")
         header = f"""#### AI Report generated by DataINFA on: {current_date} for {org_name}
 
 ---
@@ -2329,8 +2333,14 @@ def render_privacy_policy_analyzer() -> None:
                 placeholder="Enter organization name",
                 label_visibility="collapsed"
             )
-            st.session_state.ppa_org_name = org_name
-            st.write("")
+            if org_name != st.session_state.get("ppa_org_name", ""):
+                # Capitalize the organization name
+                st.session_state.ppa_org_name = org_name.strip().title()
+                # Clear previous analysis when org name changes
+                st.session_state.ppa_analysis_html = None
+                st.session_state.ppa_pdf_content = None
+                st.session_state.ppa_error = None
+                st.session_state.ppa_found_url_message = None
 
             # 2. Country (Qatar/India only)
             from privacy_policy_analyzer import PRIVACY_LAWS
@@ -2404,8 +2414,16 @@ def render_privacy_policy_analyzer() -> None:
                 options=input_methods,
                 index=input_methods.index(st.session_state.ppa_input_method),
                 key="ppa_input_method",
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                on_change=clear_ppa_analysis_state
             )
+            # Clear previous analysis when input method changes
+            if selected_input_method != st.session_state.ppa_input_method:
+                st.session_state.ppa_analysis_html = None
+                st.session_state.ppa_pdf_content = None
+                st.session_state.ppa_error = None
+                st.session_state.ppa_found_url_message = None
+            # Removed direct assignment to st.session_state.ppa_input_method to avoid Streamlit error
 
             # Input fields for each method
             policy_url: Optional[str] = None
@@ -2504,13 +2522,14 @@ def render_privacy_policy_analyzer() -> None:
             </div>
         """, unsafe_allow_html=True)
         if st.session_state.get("ppa_pdf_content"):
+            st.markdown(get_download_button_css(), unsafe_allow_html=True)
             st.download_button(
-                label="📥 Download Analysis Report (PDF)",
+                label=" Download Analysis Report (PDF)",
                 data=st.session_state.ppa_pdf_content,
                 file_name=f"Privacy_Policy_Assessment_Report_{datetime.now().strftime('%Y%m%d')}.pdf",
                 mime="application/pdf",
                 help="Download the analysis report as a PDF document",
-                use_container_width=False
+                use_container_width=True
             )
         st.markdown("""
             <div style="background: rgba(111, 168, 220, 0.1); padding: 1rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #6fa8dc;">
@@ -2530,6 +2549,11 @@ def render_privacy_policy_analyzer() -> None:
         if selected_input_method == "Paste Privacy Policy Text" and (not policy_text or not policy_text.strip()):
             st.error("Please paste the privacy policy text.")
             return
+        # Clear previous analysis when starting a new assessment
+        st.session_state.ppa_analysis_html = None
+        st.session_state.ppa_pdf_content = None
+        st.session_state.ppa_error = None
+        st.session_state.ppa_found_url_message = None
         from privacy_policy_analyzer import find_privacy_policy_url, fetch_policy_content, analyze_privacy_policy
         # Auto-Detect
         if selected_input_method == "Auto-Detect and Analyze Website Policy":
@@ -2554,7 +2578,7 @@ def render_privacy_policy_analyzer() -> None:
             policy_content = policy_text
         # Run analysis
         if policy_content:
-            with st.spinner(f"Analyzing privacy policy against {regulation_label} requirements... (Estimated time: 60 seconds)"):
+            with st.spinner(f"Analyzing privacy policy against {regulation_label} requirements... (Estimated time: ~60 seconds)"):
                 analysis_result = analyze_privacy_policy(policy_content, selected_law_key, organization_name=org_name)
                 if "error" in analysis_result:
                     st.session_state.ppa_error = f"Error analyzing privacy policy: {analysis_result['error']}"
@@ -2566,3 +2590,10 @@ def render_privacy_policy_analyzer() -> None:
                 st.session_state.ppa_pdf_content = pdf_content
                 # Force a rerun to refresh the page with the new analysis
                 st.rerun()
+
+def clear_ppa_analysis_state() -> None:
+    """Clear previous Privacy Policy Analyzer analysis state."""
+    st.session_state.ppa_analysis_html = None
+    st.session_state.ppa_pdf_content = None
+    st.session_state.ppa_error = None
+    st.session_state.ppa_found_url_message = None

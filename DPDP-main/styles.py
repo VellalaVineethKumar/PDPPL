@@ -1048,3 +1048,56 @@ def get_penalties_note_css():
         }
         </style>
     """
+
+def get_download_button_css():
+    """Return the CSS for download button styling"""
+    return """
+        <style>
+        /* Download button specific styles */
+        div[data-testid="stDownloadButton"] button {
+            background-color: #4CAF50 !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 6px !important;
+            padding: 0.75rem 1.5rem !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            text-align: center !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+            margin: 1rem 0 !important;
+            min-width: 200px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+        
+        div[data-testid="stDownloadButton"] button:hover {
+            background-color: #45a049 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15) !important;
+        }
+        
+        div[data-testid="stDownloadButton"] button:active {
+            background-color: #3d8b40 !important;
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+        
+        div[data-testid="stDownloadButton"] button:disabled {
+            background-color: #cccccc !important;
+            color: #666666 !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Icon styling */
+        div[data-testid="stDownloadButton"] button::before {
+            content: "📥";
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        </style>
+    """
