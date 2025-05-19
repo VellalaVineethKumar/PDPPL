@@ -125,7 +125,13 @@ def go_to_section(section_idx):
 
 # Assessment functions
 def save_response(section_idx, question_idx, response):
-    """Save a response to a question in the session state"""
+    """Save a response to a question in the session state and persist to storage
+    
+    Args:
+        section_idx: Index of the current section
+        question_idx: Index of the question within the section
+        response: The response value to save
+    """
     # Skip saving if response is None
     if response is None:
         logger.warning(f"Attempted to save None response for s{section_idx}_q{question_idx}")
@@ -136,6 +142,19 @@ def save_response(section_idx, question_idx, response):
     # Direct assignment is more efficient than checking previous value
     st.session_state.responses[key] = response
     logger.info(f"Saved response for {key}: '{response}'")
+    
+    # Save to storage if organization name exists
+    if hasattr(st.session_state, 'organization_name') and st.session_state.organization_name:
+        from data_storage import save_assessment_data
+        assessment_data = {
+            'organization_name': st.session_state.organization_name,
+            'assessment_date': st.session_state.assessment_date,
+            'selected_regulation': st.session_state.selected_regulation,
+            'selected_industry': st.session_state.selected_industry,
+            'responses': st.session_state.responses,
+            'assessment_complete': st.session_state.assessment_complete
+        }
+        save_assessment_data(assessment_data)
 
 def reset_assessment():
     """Reset the assessment to start over"""

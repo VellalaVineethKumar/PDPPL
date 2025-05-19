@@ -46,6 +46,7 @@ SIDEBAR_STATE = "expanded"
 REGULATIONS = {
     "DPDP": "Digital Personal Data Protection Act (India)",
     "PDPPL": "Personal Data Privacy Protection Law (Qatar)",
+    "ndp_qatar": "Personal Data Privacy Protection Law (Qatar)"  # Add mapping for ndp_qatar
 }
 
 # Industry-to-filename mapping

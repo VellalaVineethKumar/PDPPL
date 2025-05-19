@@ -12,7 +12,8 @@ def get_regulation_and_industry_for_loader() -> tuple[str, str]:
     }
     regulation_map = {
         "India": "DPDP",
-        "Qatar": "PDPPL"
+        "Qatar": "PDPPL",
+        "ndp_qatar": "PDPPL"
     }
     
     # Get the selected country and regulation

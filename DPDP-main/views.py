@@ -585,7 +585,7 @@ def render_report():
     
     results = st.session_state.results
     
-    st.subheader(f"{format_regulation_name(st.session_state.selected_regulation)} Compliance Report")
+    st.subheader(f"{format_regulation_name(st.session_state.selected_regulation)}  Compliance Report")
     # st.subheader(f"For: {st.session_state.organization_name}")
     # st.write(f"Assessment Date: {st.session_state.assessment_date}")
     
@@ -2053,6 +2053,17 @@ def render_welcome_page():
             if org_name != st.session_state.organization_name:
                 # Capitalize the organization name
                 st.session_state.organization_name = org_name.strip().title()
+                # Save organization data
+                from data_storage import save_assessment_data
+                org_data = {
+                    'organization_name': st.session_state.organization_name,
+                    'assessment_date': datetime.now().strftime("%Y-%m-%d"),
+                    'selected_regulation': st.session_state.selected_regulation,
+                    'selected_industry': st.session_state.selected_industry,
+                    'responses': {},
+                    'assessment_complete': False
+                }
+                save_assessment_data(org_data)
             
             
             # 2. Country (from PRIVACY_LAWS)
@@ -2133,6 +2144,17 @@ def render_welcome_page():
                     st.session_state.current_section = 0
                     st.session_state.assessment_started = True
                     logger.info(f"Starting assessment for {org_name}")
+                    # Save organization data
+                    from data_storage import save_assessment_data
+                    org_data = {
+                        'organization_name': org_name,
+                        'assessment_date': datetime.now().strftime("%Y-%m-%d"),
+                        'selected_regulation': st.session_state.selected_regulation,
+                        'selected_industry': st.session_state.selected_industry,
+                        'responses': {},
+                        'assessment_complete': False
+                    }
+                    save_assessment_data(org_data)
                     go_to_page('assessment')
                     st.rerun()
                 # Add a short note below the button, centered

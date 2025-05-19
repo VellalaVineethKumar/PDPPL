@@ -100,18 +100,18 @@ def save_report(data: Dict[str, Any]) -> bool:
         assessment_date = data['assessment_date']
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         
-        # Create report directory
-        report_dir = os.path.join(REPORTS_DIR, org_name)
-        os.makedirs(report_dir, exist_ok=True)
+        # Get organization directory
+        org_dir = get_org_directory(org_name)
+        os.makedirs(org_dir, exist_ok=True)
         
         # Save JSON report
-        json_path = os.path.join(report_dir, f"report_{timestamp}.json")
+        json_path = os.path.join(org_dir, f"report_{timestamp}.json")
         with open(json_path, 'w', encoding='utf-8') as f:
             json.dump(data['results'], f, indent=2)
         
         # Save Excel report if pandas is available
         try:
-            excel_path = os.path.join(report_dir, f"report_{timestamp}.xlsx")
+            excel_path = os.path.join(org_dir, f"report_{timestamp}.xlsx")
             
             # Create Excel writer
             with pd.ExcelWriter(excel_path) as writer:
