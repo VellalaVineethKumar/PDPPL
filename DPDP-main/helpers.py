@@ -91,8 +91,6 @@ def go_to_section(section_idx):
         # Completed all sections
         logger.info("Assessment completed, calculating results")
         st.session_state.assessment_complete = True
-        
-        # Calculate results
         st.session_state.results = calculate_compliance_score(
             st.session_state.selected_regulation,
             st.session_state.selected_industry
@@ -102,33 +100,21 @@ def go_to_section(section_idx):
         if not st.session_state.organization_name or st.session_state.organization_name.strip() == "":
             st.session_state.organization_name = "Unnamed Organization"
         
-        # Save assessment data with completion flag
-        logger.info("Preparing to save completed assessment data")
+        # Save assessment data
         assessment_data = {
             'organization_name': st.session_state.organization_name,
-            'assessment_date': datetime.now().strftime("%Y-%m-%d"),
+            'assessment_date': st.session_state.assessment_date,
             'selected_regulation': st.session_state.selected_regulation,
             'selected_industry': st.session_state.selected_industry,
             'responses': st.session_state.responses,
             'results': st.session_state.results,
             'assessment_complete': True,
-            'is_complete': True,  # Flag to trigger completion notification
-            'is_start': False  # Ensure start flag is not set
+            'is_complete': True  # Add this flag to trigger completion notification
         }
-        
-        # Log the data being saved
-        logger.info(f"Assessment data prepared with keys: {list(assessment_data.keys())}")
-        logger.info(f"is_complete flag set to: {assessment_data.get('is_complete')}")
-        logger.info(f"results present: {bool(assessment_data.get('results'))}")
-        logger.info(f"Overall score: {assessment_data['results'].get('overall_score')}%")
-        
-        # Save data and trigger email
         save_assessment_data(assessment_data)
-        logger.info("Assessment data saved and completion email triggered")
         
-        # Navigate to report page
         st.session_state.current_page = 'report'
-        st.rerun()
+        st.rerun()  # Add explicit rerun
         return
     
     # Set flag to ensure scroll to top happens on next render
