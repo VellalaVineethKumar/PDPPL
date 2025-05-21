@@ -568,6 +568,7 @@ def calculate_compliance_score(regulation_code: str = None, industry_code: str =
         if score is not None and score < 0.6
     ]
     
+    
     # Generate recommendations
     recommendations = {}
     
@@ -629,6 +630,7 @@ def calculate_compliance_score(regulation_code: str = None, industry_code: str =
     improvement_priorities.sort(key=lambda x: section_scores[x])
     
     # Return results
+    
     return {
         "overall_score": overall_score,
         "compliance_level": compliance_level,

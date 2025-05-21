@@ -13,6 +13,10 @@ from datetime import datetime
 import logging
 import pandas as pd
 from typing import Dict, Any, Optional
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import streamlit as st
 from config import BASE_DIR
 
 # Setup logging
@@ -22,6 +26,87 @@ logger = logging.getLogger(__name__)
 DATA_DIR = os.path.join(BASE_DIR, "data")
 ORG_DATA_DIR = os.path.join(DATA_DIR, 'organizations')
 REPORTS_DIR = os.path.join(DATA_DIR, 'reports')
+
+# Email configuration from Streamlit secrets
+SMTP_SERVER = st.secrets.get("email", {}).get("smtp_server", "smtp.gmail.com")
+SMTP_PORT = st.secrets.get("email", {}).get("smtp_port", 587)
+SENDER_EMAIL = st.secrets.get("email", {}).get("sender_email", "")
+SENDER_PASSWORD = st.secrets.get("email", {}).get("sender_password", "")
+RECIPIENT_EMAIL = st.secrets.get("email", {}).get("recipient_email", "")
+
+def send_assessment_notification(org_name: str) -> bool:
+    """Send email notification when a new assessment starts
+    
+    Args:
+        org_name: Name of the organization starting the assessment
+    
+    Returns:
+        bool: True if email was sent successfully, False otherwise
+    """
+    try:
+        # Log configuration status
+        logger.info("Checking email configuration...")
+        logger.info(f"SMTP Server: {SMTP_SERVER}")
+        logger.info(f"SMTP Port: {SMTP_PORT}")
+        logger.info(f"Sender Email: {SENDER_EMAIL}")
+        logger.info(f"Recipient Email: {RECIPIENT_EMAIL}")
+        
+        if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL]):
+            missing = []
+            if not SENDER_EMAIL: missing.append("sender_email")
+            if not SENDER_PASSWORD: missing.append("sender_password")
+            if not RECIPIENT_EMAIL: missing.append("recipient_email")
+            logger.error(f"Email notification skipped: Missing required configuration: {', '.join(missing)}")
+            return False
+            
+        # Create message
+        msg = MIMEMultipart()
+        msg['From'] = SENDER_EMAIL
+        msg['To'] = RECIPIENT_EMAIL
+        msg['Subject'] = f"New DPDP Assessment Started - {org_name}"
+        
+        # Create email body
+        body = f"""
+        A new DPDP compliance assessment has been started:
+        
+        Organization: {org_name}
+        Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        
+        This is an automated notification from the DPDP Compliance Assessment Tool.
+        """
+        
+        msg.attach(MIMEText(body, 'plain'))
+        
+        # Send email with detailed logging
+        logger.info("Attempting to connect to SMTP server...")
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            logger.info("Connected to SMTP server")
+            
+            logger.info("Starting TLS connection...")
+            server.starttls()
+            logger.info("TLS connection established")
+            
+            logger.info("Attempting to authenticate...")
+            server.login(SENDER_EMAIL, SENDER_PASSWORD)
+            logger.info("Authentication successful")
+            
+            logger.info("Sending email message...")
+            server.send_message(msg)
+            logger.info("Email sent successfully")
+            
+        logger.info(f"Assessment notification email sent for {org_name}")
+        return True
+        
+    except smtplib.SMTPAuthenticationError as e:
+        logger.error(f"SMTP Authentication failed: {str(e)}")
+        logger.error("Please check your email and password in secrets.toml")
+        return False
+    except smtplib.SMTPException as e:
+        logger.error(f"SMTP error occurred: {str(e)}")
+        return False
+    except Exception as e:
+        logger.error(f"Unexpected error sending assessment notification email: {str(e)}")
+        return False
 
 def ensure_data_directories():
     """Ensure all necessary data directories exist"""
@@ -75,15 +160,112 @@ def save_assessment_data(data: Dict[str, Any]) -> bool:
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(save_data, f, indent=2)
         
-        # If assessment is complete, save report
-        if data.get('assessment_complete', False) and data.get('results'):
-            save_report(data)
-            
+        # If we have results, send email immediately
+        if data.get('results'):
+            logger.info("Sending report email immediately after score calculation...")
+            email_sent = send_report_email(data)
+            if email_sent:
+                logger.info("Report email sent successfully")
+            else:
+                logger.error("Failed to send report email")
+                return False
+                
         logger.info(f"Saved assessment data for {org_name} to {filepath}")
         return True
         
     except Exception as e:
         logger.error(f"Error saving assessment data: {e}")
+        return False
+
+def send_report_email(data: Dict[str, Any]) -> bool:
+    """Send assessment report via email
+    
+    Args:
+        data: Assessment data dictionary containing results
+    
+    Returns:
+        bool: True if email was sent successfully, False otherwise
+    """
+    try:
+        org_name = data['organization_name']
+        assessment_date = data['assessment_date']
+        
+        # Log email configuration
+        logger.info("Checking email configuration for report...")
+        logger.info(f"SMTP Server: {SMTP_SERVER}")
+        logger.info(f"SMTP Port: {SMTP_PORT}")
+        logger.info(f"Sender Email: {SENDER_EMAIL}")
+        logger.info(f"Recipient Email: {RECIPIENT_EMAIL}")
+        logger.info(f"Sender Password length: {len(SENDER_PASSWORD) if SENDER_PASSWORD else 0}")
+        
+        if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL]):
+            missing = []
+            if not SENDER_EMAIL: missing.append("sender_email")
+            if not SENDER_PASSWORD: missing.append("sender_password")
+            if not RECIPIENT_EMAIL: missing.append("recipient_email")
+            logger.error(f"Report email skipped: Missing required configuration: {', '.join(missing)}")
+            return False
+        
+        # Create message
+        msg = MIMEMultipart()
+        msg['From'] = SENDER_EMAIL
+        msg['To'] = RECIPIENT_EMAIL
+        msg['Subject'] = f"DPDP Assessment Report - {org_name}"
+        
+        # Create email body with report details
+        body = f"""
+        DPDP Compliance Assessment Report
+        
+        Organization: {org_name}
+        Assessment Date: {assessment_date}
+        Regulation: {data['selected_regulation']}
+        Industry: {data['selected_industry']}
+        
+        Overall Score: {data['results']['overall_score']}%
+        Compliance Level: {data['results']['compliance_level']}
+        
+        Section Scores:
+        {chr(10).join(f"- {section}: {score*100}%" for section, score in data['results']['section_scores'].items() if score is not None)}
+        
+        Recommendations:
+        {chr(10).join(f"- {section}: {chr(10)}  {chr(10).join('  - ' + rec for rec in recs)}" for section, recs in data['results']['recommendations'].items())}
+        
+        This is an automated report from the DPDP Compliance Assessment Tool.
+        """
+        
+        msg.attach(MIMEText(body, 'plain'))
+        
+        # Send email with detailed logging
+        logger.info("Attempting to connect to SMTP server...")
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            logger.info("Connected to SMTP server")
+            
+            logger.info("Starting TLS connection...")
+            server.starttls()
+            logger.info("TLS connection established")
+            
+            logger.info("Attempting to authenticate...")
+            server.login(SENDER_EMAIL, SENDER_PASSWORD)
+            logger.info("Authentication successful")
+            
+            logger.info("Sending email message...")
+            server.send_message(msg)
+            logger.info("Report email sent successfully")
+            
+        logger.info(f"Assessment report email sent for {org_name}")
+        return True
+        
+    except smtplib.SMTPAuthenticationError as e:
+        logger.error(f"SMTP Authentication failed while sending report: {str(e)}")
+        logger.error("Please check your email and password in secrets.toml")
+        return False
+    except smtplib.SMTPException as e:
+        logger.error(f"SMTP error occurred while sending report: {str(e)}")
+        return False
+    except Exception as e:
+        logger.error(f"Unexpected error sending assessment report email: {str(e)}")
+        logger.error(f"Error type: {type(e).__name__}")
+        logger.error(f"Error details: {str(e)}")
         return False
 
 def save_report(data: Dict[str, Any]) -> bool:
@@ -99,6 +281,10 @@ def save_report(data: Dict[str, Any]) -> bool:
         org_name = data['organization_name']
         assessment_date = data['assessment_date']
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        
+        logger.info(f"Starting report generation for {org_name}")
+        logger.info(f"Report data keys: {list(data.keys())}")
+        logger.info(f"Results keys: {list(data['results'].keys()) if data.get('results') else 'No results'}")
         
         # Get organization directory
         org_dir = get_org_directory(org_name)

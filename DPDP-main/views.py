@@ -2152,7 +2152,8 @@ def render_welcome_page():
                         'selected_regulation': st.session_state.selected_regulation,
                         'selected_industry': st.session_state.selected_industry,
                         'responses': {},
-                        'assessment_complete': False
+                        'assessment_complete': False,
+                        'is_start': True  # Add this flag to trigger start notification
                     }
                     save_assessment_data(org_data)
                     go_to_page('assessment')
