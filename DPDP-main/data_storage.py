@@ -27,12 +27,30 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 ORG_DATA_DIR = os.path.join(DATA_DIR, 'organizations')
 REPORTS_DIR = os.path.join(DATA_DIR, 'reports')
 
-# Email configuration from Streamlit secrets
+# Email configuration
 SMTP_SERVER = st.secrets.get("email", {}).get("smtp_server", "smtp.gmail.com")
 SMTP_PORT = st.secrets.get("email", {}).get("smtp_port", 587)
 SENDER_EMAIL = st.secrets.get("email", {}).get("sender_email", "")
 SENDER_PASSWORD = st.secrets.get("email", {}).get("sender_password", "")
 RECIPIENT_EMAIL = st.secrets.get("email", {}).get("recipient_email", "")
+
+# Log email configuration status
+logger.info("Checking email configuration...")
+logger.info(f"SMTP Server: {SMTP_SERVER}")
+logger.info(f"SMTP Port: {SMTP_PORT}")
+logger.info(f"Sender Email: {SENDER_EMAIL}")
+logger.info(f"Recipient Email: {RECIPIENT_EMAIL}")
+logger.info(f"Sender Password length: {len(SENDER_PASSWORD) if SENDER_PASSWORD else 0}")
+
+if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL]):
+    missing = []
+    if not SENDER_EMAIL: missing.append("sender_email")
+    if not SENDER_PASSWORD: missing.append("sender_password")
+    if not RECIPIENT_EMAIL: missing.append("recipient_email")
+    logger.error(f"Missing required email configuration: {', '.join(missing)}")
+    logger.error("Please check your .streamlit/secrets.toml file")
+else:
+    logger.info("Email configuration loaded successfully")
 
 def send_assessment_notification(org_name: str) -> bool:
     """Send email notification when a new assessment starts
@@ -44,21 +62,6 @@ def send_assessment_notification(org_name: str) -> bool:
         bool: True if email was sent successfully, False otherwise
     """
     try:
-        # Log configuration status
-        logger.info("Checking email configuration...")
-        logger.info(f"SMTP Server: {SMTP_SERVER}")
-        logger.info(f"SMTP Port: {SMTP_PORT}")
-        logger.info(f"Sender Email: {SENDER_EMAIL}")
-        logger.info(f"Recipient Email: {RECIPIENT_EMAIL}")
-        
-        if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL]):
-            missing = []
-            if not SENDER_EMAIL: missing.append("sender_email")
-            if not SENDER_PASSWORD: missing.append("sender_password")
-            if not RECIPIENT_EMAIL: missing.append("recipient_email")
-            logger.error(f"Email notification skipped: Missing required configuration: {', '.join(missing)}")
-            return False
-            
         # Create message
         msg = MIMEMultipart()
         msg['From'] = SENDER_EMAIL
@@ -189,22 +192,6 @@ def send_report_email(data: Dict[str, Any]) -> bool:
     try:
         org_name = data['organization_name']
         assessment_date = data['assessment_date']
-        
-        # Log email configuration
-        logger.info("Checking email configuration for report...")
-        logger.info(f"SMTP Server: {SMTP_SERVER}")
-        logger.info(f"SMTP Port: {SMTP_PORT}")
-        logger.info(f"Sender Email: {SENDER_EMAIL}")
-        logger.info(f"Recipient Email: {RECIPIENT_EMAIL}")
-        logger.info(f"Sender Password length: {len(SENDER_PASSWORD) if SENDER_PASSWORD else 0}")
-        
-        if not all([SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL]):
-            missing = []
-            if not SENDER_EMAIL: missing.append("sender_email")
-            if not SENDER_PASSWORD: missing.append("sender_password")
-            if not RECIPIENT_EMAIL: missing.append("recipient_email")
-            logger.error(f"Report email skipped: Missing required configuration: {', '.join(missing)}")
-            return False
         
         # Create message
         msg = MIMEMultipart()
